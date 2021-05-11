@@ -12,7 +12,7 @@ Pip installation is disable until package validation on PyPI.
 How to use
 ----------
 ```python3
-from FindMyIP import FindMyIP as ip 
+import FindMyIP as ip
 ```
 
 * Internet connection status:
