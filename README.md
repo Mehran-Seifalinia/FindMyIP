@@ -1,6 +1,6 @@
 # Find My IP
 This module helps you to find out your both internal(local) and external IP also you can figure out your internet connection status.
-Import **FindYourIP** in your script and use it easily.
+Import **FindMyIP** in your script and use it easily.
 
 Installing
 ----------
