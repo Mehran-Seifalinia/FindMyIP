@@ -5,8 +5,8 @@ Import **Find-Your-IP** in your script and use it easily.
 Installing
 ----------
 Download this module directly on github or install it with ```pip``` installation.
-```
-Pip installation is disable until package validation on PyPI.
+```shell
+pip install FindMyIP
 ```
 
 How to use
