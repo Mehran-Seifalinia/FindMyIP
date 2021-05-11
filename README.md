@@ -40,5 +40,5 @@ import FindMyIP as ip
   ```
   
   # Change Log:
-* [v 1.1.0:](https://github.com/Mehran-Seifalinia/Find-My-IP/commit/b47caa25bc8951f7223ceed6aca5df5ca4d899a6)
+* [v 1.1.0:](https://github.com/Mehran-Seifalinia/FindMyIP/commit/b47caa25bc8951f7223ceed6aca5df5ca4d899a6)
   * Released
