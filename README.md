@@ -62,4 +62,9 @@ We're continuously improving Find My IP to ensure the best experience. Here's a 
   - Improved code documentation
     - Added more comments to enhance code readability and understanding.
 
+* **[v 2.0.0:](https://github.com/Mehran-Seifalinia/FindMyIP/commit/bf3566985587f2a4190091ef8826e431128a425a)**
+  - Recoding as a class
+  - Improve error handling
+  - Get errors as log
+
 Stay tuned for more updates as we continue to enhance Find My IP to meet your needs!
