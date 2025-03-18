@@ -1,49 +1,49 @@
 from socket import socket, AF_INET, SOCK_STREAM, SOCK_DGRAM, setdefaulttimeout, error
 from urllib.request import urlopen
 
-# Check if internet connection is available by attempting to connect to www.google.com on port 80.
-def internet():
-    host = "www.google.com"
-    port = 80
-    timeout = 5  # 5 seconds
+class FindMyIP:
+    def __init__(self):
+        self.timeout = 5
+        self.google_dns = "8.8.8.8"
+        self.api_url = "https://api.ipify.org/"
+        self.decode_type = "UTF-8"
 
-    try:
-        setdefaulttimeout(timeout)
-        socket(AF_INET, SOCK_STREAM).connect((host, port))
-        return True
-    except error:
-        return False
+    def internet(self):
+        """Check if internet connection is available by attempting to connect to www.google.com on port 80."""
+        host = "www.google.com"
+        port = 80
 
-# Get the local IP address by connecting to Google's public DNS server (8.8.8.8) on port 80.
-def internal():
-    google_dns = "8.8.8.8"
-    port = 80
+        try:
+            setdefaulttimeout(self.timeout)
+            socket(AF_INET, SOCK_STREAM).connect((host, port))
+            return True
+        except error:
+            return False
 
-    try:
-        connection = socket(AF_INET, SOCK_DGRAM)
-        connection.connect((google_dns, port))
-        local_ip_address = connection.getsockname()[0]
-        return local_ip_address
-    except Exception as e:
-        print(e)
-        return None
-    finally:
-        connection.close()
+    def internal(self):
+        """Get the local IP address by connecting to Google's public DNS server (8.8.8.8) on port 80."""
+        try:
+            connection = socket(AF_INET, SOCK_DGRAM)
+            connection.connect((self.google_dns, 80))
+            local_ip_address = connection.getsockname()[0]
+            return local_ip_address
+        except Exception as e:
+            print(f"Error getting internal IP: {e}")
+            return None
+        finally:
+            connection.close()
 
-# Get the external (public) IP address by fetching it from the ipify.org API.
-def external():
-    api_url = "https://api.ipify.org/"
-    decode_type = "UTF-8"
+    def external(self):
+        """Get the external (public) IP address by fetching it from the ipify.org API."""
+        if not self.internet():
+            print("You are not connected to the internet!\nPlease check your connection.")
+            return None
 
-    try:
-        if internet():
-            response = urlopen(api_url)
-            external_ip_address = response.read().decode(decode_type)
+        try:
+            response = urlopen(self.api_url)
+            external_ip_address = response.read().decode(self.decode_type)
             response.close()
             return external_ip_address
-        else:
-            print("You are not connected to the internet!\nPlase check your connection.")
+        except Exception as e:
+            print(f"Error getting external IP: {e}")
             return None
-    except Exception as e:
-        print(e)
-        exit()
