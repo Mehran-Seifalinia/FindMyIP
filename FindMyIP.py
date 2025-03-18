@@ -1,5 +1,12 @@
-from socket import socket, AF_INET, SOCK_STREAM, SOCK_DGRAM, setdefaulttimeout, error
+import logging
+from socket import socket, AF_INET, SOCK_STREAM, SOCK_DGRAM, timeout, error
 from urllib.request import urlopen
+from urllib.error import URLError
+
+
+# Init logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 class FindMyIP:
     def __init__(self, timeout=5, google_dns="8.8.8.8", api_url="https://api.ipify.org/", decode_type="UTF-8"):
@@ -24,43 +31,45 @@ class FindMyIP:
         port = 80
 
         try:
-            # Use a context manager to ensure the socket is properly closed after use
             with socket(AF_INET, SOCK_STREAM) as s:
                 s.settimeout(self.timeout)
                 s.connect((host, port))
             return True
         except timeout:
-            print("Connection timed out.")
+            logging.error("Connection timed out while checking internet access.")
             return False
         except error as e:
-            print(f"Socket error occurred: {e}")
+            logging.error(f"Socket error occurred while checking internet: {e}")
             return False
 
     def internal(self):
         """Get the local IP address by connecting to Google's public DNS server (8.8.8.8) on port 80."""
         try:
-            # Use a context manager to automatically close the socket after use
             with socket(AF_INET, SOCK_DGRAM) as connection:
                 connection.connect((self.google_dns, 80))
                 local_ip_address = connection.getsockname()[0]
                 return local_ip_address
         except Exception as e:
-            print(f"Error getting internal IP: {e}")
+            logging.error(f"Error getting internal IP address: {e}")
             return None
 
     def external(self):
         """Get the external (public) IP address by fetching it from the ipify.org API."""
         if not self.internet():
-            print("You are not connected to the internet!\nPlease check your connection.")
+            logging.error("You are not connected to the internet. Please check your connection.")
+            return None
+
+        if not self.api_url:
+            logging.error("Invalid API URL provided.")
             return None
 
         try:
-            with urlopen(self.api_url) as response:
+            with urlopen(self.api_url, timeout=self.timeout) as response:
                 external_ip_address = response.read().decode(self.decode_type)
                 return external_ip_address
         except URLError as e:
-            print(f"URL error occurred: {e}")
+            logging.error(f"URL error occurred while fetching external IP: {e}")
             return None
         except Exception as e:
-            print(f"Error getting external IP: {e}")
+            logging.error(f"Error getting external IP: {e}")
             return None
