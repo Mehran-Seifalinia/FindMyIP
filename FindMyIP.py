@@ -9,15 +9,31 @@ class FindMyIP:
         self.decode_type = decode_type
 
     def internet(self):
-        """Check if internet connection is available by attempting to connect to www.google.com on port 80."""
+        """
+        Check if an internet connection is available by attempting to connect to www.google.com on port 80.
+        
+        This method creates a socket and attempts to connect to Google's DNS server on port 80. If the connection
+        is successful, it returns True, indicating that the system has internet access. If there is any issue (like
+        timeout or unreachable server), it returns False.
+
+        Raises:
+            socket.timeout: If the connection times out based on the defined timeout value.
+            socket.error: If there is a general connection error.
+        """
         host = "www.google.com"
         port = 80
 
         try:
-            setdefaulttimeout(self.timeout)
-            socket(AF_INET, SOCK_STREAM).connect((host, port))
+            # Use a context manager to ensure the socket is properly closed after use
+            with socket(AF_INET, SOCK_STREAM) as s:
+                s.settimeout(self.timeout)
+                s.connect((host, port))
             return True
-        except error:
+        except timeout:
+            print("Connection timed out.")
+            return False
+        except error as e:
+            print(f"Socket error occurred: {e}")
             return False
 
     def internal(self):
