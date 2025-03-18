@@ -2,11 +2,11 @@ from socket import socket, AF_INET, SOCK_STREAM, SOCK_DGRAM, setdefaulttimeout, 
 from urllib.request import urlopen
 
 class FindMyIP:
-    def __init__(self):
-        self.timeout = 5
-        self.google_dns = "8.8.8.8"
-        self.api_url = "https://api.ipify.org/"
-        self.decode_type = "UTF-8"
+    def __init__(self, timeout=5, google_dns="8.8.8.8", api_url="https://api.ipify.org/", decode_type="UTF-8"):
+        self.timeout = timeout
+        self.google_dns = google_dns
+        self.api_url = api_url
+        self.decode_type = decode_type
 
     def internet(self):
         """Check if internet connection is available by attempting to connect to www.google.com on port 80."""
