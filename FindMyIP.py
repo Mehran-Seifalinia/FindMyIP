@@ -39,15 +39,14 @@ class FindMyIP:
     def internal(self):
         """Get the local IP address by connecting to Google's public DNS server (8.8.8.8) on port 80."""
         try:
-            connection = socket(AF_INET, SOCK_DGRAM)
-            connection.connect((self.google_dns, 80))
-            local_ip_address = connection.getsockname()[0]
-            return local_ip_address
+            # Use a context manager to automatically close the socket after use
+            with socket(AF_INET, SOCK_DGRAM) as connection:
+                connection.connect((self.google_dns, 80))
+                local_ip_address = connection.getsockname()[0]
+                return local_ip_address
         except Exception as e:
             print(f"Error getting internal IP: {e}")
             return None
-        finally:
-            connection.close()
 
     def external(self):
         """Get the external (public) IP address by fetching it from the ipify.org API."""
