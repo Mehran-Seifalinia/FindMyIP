@@ -18,35 +18,45 @@ With just a simple installation step, you'll be ready to utilize Find My IP in y
 
 Using Find My IP is straightforward. Here's a step-by-step guide to help you get started:
 
-* **Import the module:**
+* **Import the module and create an instance::**
    ```python3
-   import FindMyIP as ip
+   from FindMyIP import FindMyIP
+   
+   ip_finder = FindMyIP()
    ```
 
 * **Check Internet Connection Status:**
-   To determine if your internet is connected or disconnected, use the `internet()` function:
+   To determine if your internet is connected or disconnected, use the `internet()` method:
    ```python3
-   >>> ip.internet()
-   True    # If the internet is connected.
-   False   # If the internet is disconnected.
+   >>> print(ip_finder.internet())
+   
+   # Output:
+     # True  # If the internet is connected.
+     # False # If the internet is disconnected.
    ```
 
 * **Retrieve Local IP Address:**
-   To find your local (internal) IP address, use the `internal()` function:
+   To find your local (internal) IP address, use the `internal()` method:
    ```python3
-   >>> local_ip = ip.internal()
+   >>> local_ip = ip_finder.internal()
    >>> print(local_ip)
-   192.168.1.102
+   
+   # Output: 192.168.1.102 (Example value)
    ```
 
 * **Retrieve External IP Address:**
-   To get your external IP address, use the `external()` function:
+   To get your external IP address, use the `external()` method:
    ```python3
-   >>> real_ip = ip.external()
+   >>> real_ip = ip_finder.external()
    >>> print(real_ip)
-   82.212.251.142
-   None  # When you are not connected to the internet
+   
+   # Output:
+     # 82.212.251.142  # When connected to the internet
+     # None            # When not connected to the internet
    ```
+
+## Logging:
+Find My IP uses logging to provide useful debugging information. If an error occurs (e.g., no internet connection), it will be logged automatically.
 
 With these simple steps, you can easily find your IP addresses and check your internet connection status using the Find My IP package in your Python projects. Happy coding!
   
