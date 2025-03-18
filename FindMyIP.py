@@ -55,10 +55,12 @@ class FindMyIP:
             return None
 
         try:
-            response = urlopen(self.api_url)
-            external_ip_address = response.read().decode(self.decode_type)
-            response.close()
-            return external_ip_address
+            with urlopen(self.api_url) as response:
+                external_ip_address = response.read().decode(self.decode_type)
+                return external_ip_address
+        except URLError as e:
+            print(f"URL error occurred: {e}")
+            return None
         except Exception as e:
             print(f"Error getting external IP: {e}")
             return None
